@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--修正後-->
+<html>
+  <body>
+    <script>
+      let life = { answer: 42 };
+      console.log(JSON.parse(JSON.stringify(life)));
+      life.answer = 0;
+      console.log(JSON.parse(JSON.stringify(life)));
+    </script>
+  </body>
+
+  <!--修正前-->
+  <!--
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      let life = { answer: 42 };
+      console.log(life);
+      life.answer = 0;
+      console.log(life);
+    </script>
+  </body>
+</html>
+-->
+</html>
