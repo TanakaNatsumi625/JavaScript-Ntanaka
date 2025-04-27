@@ -11,8 +11,8 @@ class Point { //クラス名は大文字から始める
     add(myPointX, myPointY) { 
         const addPointX = this.x + myPointX; 
         const addPointY = this.y + myPointY;
-        console.log(addPointX, addPointY); //コンソールに出力する
-        return addPointX, addPointY; //足し算した座標を返す
+        console.log(`座標： (${addPointX}, ${addPointY})`); //コンソールに出力する
+        return 'addPointX, addPointY'; //足し算した座標を返す
     };
 };
 

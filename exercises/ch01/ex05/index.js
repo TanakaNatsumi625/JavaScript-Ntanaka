@@ -1,11 +1,18 @@
+import { array } from "yargs";
+
 export function abs(x) {
-  // 0 より小さい場合は -x を返す。そうでない場合はそのまま返す
-  return x < 0 ? -x : x;
+    if (x >= 0) {
+        return x;
+    }
+    return -x;
 }
 
-export function sum(x,y) {
-    // x と y を足して返す
-    return x + y;
+export function sum(array) { //配列の要素を合計する
+    let sum = 0;
+    for (let x of array){ //各要素を取り出す
+        sum += x;
+    }
+    return sum;
 }
 
 export function factorial(n) {
