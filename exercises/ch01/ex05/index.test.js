@@ -20,12 +20,8 @@ describe("math", () => {
 
   // 以下に sum, factorial のテストを記載せよ
   describe("sum", () => {
-    it("return sum value when two values given", () => {      
-      expect(sum(1, 2)).toBe(3);
-      expect(sum(3, 4)).toBe(7);
-      expect(sum(-5, 6)).toBe(1);
-      expect(sum(0, 0)).toBe(0);
-      expect(sum(-1, -2)).toBe(-3);
+    it("return sum value when array values given", () => {      
+      expect(sum([2, 3, 5, 7, 11])).toBe(28);
     });
   });
   describe("factorial", () => {
