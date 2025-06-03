@@ -6,3 +6,4 @@ export function equalArrays(a, b) {
   }
   return true;
 }
+
