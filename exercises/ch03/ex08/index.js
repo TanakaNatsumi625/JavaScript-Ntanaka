@@ -13,6 +13,6 @@ console.log(Boolean(0)); // false
 console.log(String(true)); // "true"
 console.log(String(1234)); // "1234"
 
-//perseInt() : 文字列を整数に変換する。変換できない場合はNaNを返す。
+//perseInt() : 文字列から整数を抽出する。：以降は無視される。変換できない場合はNaNを返す。
 console.log(parseInt("12,742 km：地球の直径")); // 12
 console.log(parseInt("1.618：黄金比")); // 1

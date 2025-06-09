@@ -33,3 +33,14 @@ function calculation() {
 }
 
 calculation();
+
+//配列に[Infinity, -Infinity, NaN]を入れて、forでループする方法もある
+// let numbers = [Infinity, -Infinity, NaN];
+// for (let a of numbers) {
+//     for(let b of numbers ){
+//         console.log(`${a} + ${b} = ${a + b}`); // Infinity + Infinity = Infinity
+//         console.log(`${a} - ${b} = ${a - b}`); // Infinity - Infinity = NaN
+//         console.log(`${a} * ${b} = ${a * b}`); // Infinity * Infinity = Infinity
+//         console.log(`${a} / ${b} = ${a / b}`); // Infinity / Infinity = NaN
+//     }
+// }

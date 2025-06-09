@@ -7,3 +7,8 @@ export function equalArrays(a, b) {
   return true;
 }
 
+//配列も文字列もlengsは同じ
+// const x = [1, 2, 3];
+// const y = "123"
+// console.log(x.length);
+// console.log(y.length);

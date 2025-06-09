@@ -31,3 +31,5 @@ HTML を開いた状態のタブで開発者ツールを開く場合だと、lif
 二つとも{answer: 0}の要に表示されてしまう。
 参考：https://zenn.dev/ymmt1089/articles/20221103_consolelog
 https://developer.mozilla.org/ja/docs/Web/API/console/log_static#%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E3%83%AD%E3%82%B0%E5%87%BA%E5%8A%9B
+
+うまく動かないときに挙動で混乱しない意図の問

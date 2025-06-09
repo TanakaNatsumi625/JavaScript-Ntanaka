@@ -3,10 +3,13 @@
 <html>
   <body>
     <script>
-      let life = { answer: 42 };
+      let life = { answer:{x:3} };
       console.log(JSON.parse(JSON.stringify(life)));
       life.answer = 0;
       console.log(JSON.parse(JSON.stringify(life)));
+      //console.log(structureclone(life));でも同じ結果になる
+      //console.log(...life);でコピーもできるが、オブジェクトの階層が深いとできなかったりする(一番上のみだったいりする
+      //let x ={ answer: life.answer };
     </script>
   </body>
 
