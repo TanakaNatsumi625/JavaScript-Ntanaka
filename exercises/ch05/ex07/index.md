@@ -2,3 +2,4 @@
 結果：falseが出力された
 理由：
 tryの後には必ずfinallyが実行されるため、関数f()の返り値は最終的にfalseになる
+tryとfinallyでどっちもreturn出すというのがそもそもよくない
