@@ -2,6 +2,8 @@ import { assign } from "./index.js";
 
 function testCase(target, sameTarget, sources) {
   try {
+    console.log('result of target:', assign(target, ...sources));
+    console.log('expected:', Object.assign(sameTarget, ...sources));
     return {
       target,
       sources,
