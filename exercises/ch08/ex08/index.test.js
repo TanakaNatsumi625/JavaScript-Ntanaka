@@ -40,16 +40,16 @@ describe("counterGroup", () => {
 
   describe("#total", () => {
     test("It returns total amount of all counters in CounterGroup", () => {
-      const cg = counterGroup();
-      expect(cg.total()).toBe(0);
-      const c1 = cg.newCounter();
-      c1.count();
-      c1.count();
-      c1.count();
+      const cg = counterGroup();//counters = []が作られる
+      expect(cg.total()).toBe(0);//何も入っていないので0になる
+      const c1 = cg.newCounter();//nが0で初期化される。戻り値に関数オブジェクトが入っている
+      c1.count();//count()が呼ばれるとnが0になる。
+      c1.count();//クロージャは値nが保持されるので、1
+      c1.count();//2
       expect(cg.total()).toBe(3);
-      const c2 = cg.newCounter();
-      c2.count();
-      c2.count();
+      const c2 = cg.newCounter();//新しいカウンターが作られる
+      c2.count();//nが0で初期化される。戻り値に関数オブジェクトが入っている
+      c2.count();//1
       expect(cg.total()).toBe(5);
       const c3 = cg.newCounter();
       c3.count();
@@ -85,9 +85,9 @@ describe("counterGroup", () => {
       const cg = counterGroup();
       expect(() => cg.variance()).toThrowError(TypeError);
       const c1 = cg.newCounter();
-      c1.count();
-      c1.count();
-      c1.count();
+      c1.count();// 0
+      c1.count();// 1
+      c1.count();// 2
       expect(() => cg.variance()).toThrowError(TypeError);
       const c2 = cg.newCounter();
       c2.count();
