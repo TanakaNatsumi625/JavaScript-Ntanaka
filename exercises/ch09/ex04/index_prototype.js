@@ -10,7 +10,7 @@ Soldier.prototype = {
 
 //サブクラスのコンストラクタ関数
 export function MagicSoldier(atc, mgc) {
-    Soldier.call(this, atc); //親クラスのコンストラクタを呼び出す→atkフィールドを持たせる
+    Soldier.call(this, atc); //親クラスのコンストラクタを呼び出す→atkフィールドを持たせる。古い書き方
     this.mgc = mgc;
 }
 //サブクラスのプロトタイプを親クラスのプロトタイプから継承する
