@@ -2,7 +2,9 @@ export class C {
     constructor() {
         this.n = 0;
     }
-    
+    //getと書くと値を読み出すイメージなのにn++で足してしまう
+    //副作用がある
+    //データを取得するモジュールと更新するモジュールを分けるのが望ましい
     get x() {
         return this.n++;
     }
