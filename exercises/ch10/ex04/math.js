@@ -1,15 +1,15 @@
-function add(a, b) {
+function addTest(a, b) {
     return a + b;
   }
 
-class Calculator {
+class Calc {
     multiply(a, b) {
         return a * b;
     }
 }
 
 //デフォルトエクスポート
-export default add;
+export default addTest;
 
 //名前付きエクスポート
-export { Calculator };
+export { Calc as Calculator };
