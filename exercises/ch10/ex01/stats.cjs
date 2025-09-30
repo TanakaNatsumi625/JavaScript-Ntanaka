@@ -6,3 +6,6 @@ let m = exports.mean(d);
 return Math.sqrt(d.map(x => x - m).map(square).reduce(sum)/(d.length-1));
 };
 
+module.exports = class BitSet extends AbstractWritableSet {
+// 実装は割愛。
+};

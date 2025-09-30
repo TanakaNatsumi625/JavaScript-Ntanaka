@@ -1,10 +1,10 @@
 // これから (N, K) と (K, M) の行列の乗算を行う (この値は色々変更して試すこと)
-const [N, K, M] = [100, 200, 300];
+const [N, K, M] = [1000, 200, 300];
 
 // 配列版: (N, K) の行列を要素数 N * K の1次元配列で表現する ((i, j) は array[K * i + j] で参照)
-const lhsA = Array(N * K)
-  .fill(0.0)
-  .map(() => Math.random());
+const lhsA = Array(N * K)//行列作成(中身なし)
+  .fill(0.0)//全て0.0で埋める
+  .map(() => Math.random());//それぞれの要素をランダムな値で埋める
 const rhsA = Array(K * M)
   .fill(0.0)
   .map(() => Math.random());
@@ -13,6 +13,15 @@ const resultA = Array(N * M).fill(0.0);
 function arrayMultiply() {
   resultA.fill(0.0);
   // 問題: ここで resultA に lhsA と rhsA の乗算結果を格納してね
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < M; j++) {
+      let sum = 0.0;
+      for (let k = 0; k < K; k++) {
+        sum += lhsA[K * i + k] * rhsA[M * k + j];
+      }
+      resultA[M * i + j] = sum;
+    }
+  }
 }
 
 // 型付き配列版 (Float64Array 以外の型も試してみると良い)
@@ -23,6 +32,15 @@ const resultB = new Float64Array(N * M).fill(0.0);
 function typedArrayMultiply() {
   resultB.fill(0.0);
   // 問題: ここで resultB に lhsB と rhsB の乗算結果を格納してね
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < M; j++) {
+      let sum = 0.0;
+      for (let k = 0; k < K; k++) {
+        sum += lhsB[K * i + k] * rhsB[M * k + j];
+      }
+      resultB[M * i + j] = sum;
+    }
+  }
 }
 
 const TEST_TIMES = 100;
