@@ -16,6 +16,11 @@ export class TypeMap{
         if (typeof key !== 'function') {
             throw new TypeError('Key must be a constructor function');
         }
+        //'function'だとアロー関数も含められてしまう
+        //コンストラクタ関数かどうか調べるにはReflect.construct()を使う
+        // if (!isConstructor(key)) {
+        //     throw new TypeError('Key must be a constructor function');
+        // }
 
         // プリミティブ値のラッパークラスの場合の特別処理
         if (key === String || key === Number || key === Boolean) {
@@ -29,6 +34,7 @@ export class TypeMap{
             if (!(value instanceof key)) {
                 throw new TypeError(`Value must be an instance of ${key.name}`);
             }
+            //Objectのprototype.get()を使う方が確実
         }
 
         this.map.set(key, value);
