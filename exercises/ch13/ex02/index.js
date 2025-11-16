@@ -116,6 +116,9 @@ function f5() {
       return 40;
     })
     .then(
+      //.then()は関数を渡すべきところなので、ここで渡されている Promise は無視される
+      //それはそれとして、別のPromiseチェーンとして実行される
+      //つまり、wait1().then(...) は即座に実行される(wait2()処理は同時開始される)
       wait1().then(() => {
         logB();
         return 100;

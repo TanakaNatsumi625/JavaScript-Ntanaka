@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>インポート動作確認</title>
+</head>
+<body>
+  <h1>インポート動作確認</h1>
+  <button id="load">Load Module from JS</button>
+
+  <script type="module">
+    const btn = document.getElementById('load');
+
+    btn.addEventListener('click', async () => {
+      try {
+        const mod = await import('http://127.0.0.1:5500/exercises/ch15.01-03/ex02/JS/index.js');
+        alert(`半径 5 の円の面積は ${mod.areaCircle(5)}`);
+      } catch (e) {
+        console.error('Failed to load cross-site module:', e);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -81,7 +81,7 @@ async function i3() {
     log(v);
   }
 }
-// i3();
+i3();
 async function i4() {
   // NOTE: 複数の非同期処理が1つの変数に対し書き込みを行う場合、読み込みと書き込みの間に await が入るとどうなるだろうか
   let v = 0;
@@ -107,7 +107,7 @@ async function i4() {
   await p2();
   log(v);
 }
-i4();
+// i4();
 
 // 例外i4()が20秒くらい待つのが長いので、並列処理＋それぞれの結果を足し合わせる方向に修正
 async function i4_2() {
@@ -137,4 +137,4 @@ async function i4_2() {
   v = results.reduce((a, b) => a + b, 0);
   log(v);  // 10
 }
-i4_2();
+// i4_2();

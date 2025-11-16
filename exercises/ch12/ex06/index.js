@@ -21,6 +21,6 @@ export function* walk(rootPath) {
 }
 
 //以下、動作確認コード
-// for (let entry of walk("./ch12/ex06")) {
-//     console.log(`${entry.isDirectory ? "Dir: " : "File:"} ${entry.path}`);
-// }
+for (let entry of walk("./ch12/ex06")) {
+    console.log(`${entry.isDirectory ? "Dir: " : "File:"} ${entry.path}`);
+}
