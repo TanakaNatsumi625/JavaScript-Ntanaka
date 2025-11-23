@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>インポート動作確認</title>
+</head>
+<body>
+  <h1>インポート動作確認</h1>
+  <p>このテキストは赤色になります。</p>
+
+  <script type="module">
+    try {
+        // 動的に jQuery モジュールをインポート
+        const { $ } = await import(
+          "https://releases.jquery.com/git/jquery-git.module.min.js"
+        );
+
+        // ページ内の全テキストの色を赤に変更
+        $("*").css("color", "red");
+      } catch (error) {
+        console.error("モジュールのインポートに失敗:", error);
+      }
+  </script>
+</body>
+</html>

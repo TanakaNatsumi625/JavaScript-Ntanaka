@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>XSS 例</title>
     <script type="module">
-      const res = await fetch("/ch15.01-03/ex08/data.json");
+      const res = await fetch("data.json");
       const json = await res.json();
       const profileDisplay = document.getElementById("profile-display");
+      // innerHTMLを使うと、HTMLタグも解釈されるため、XSS攻撃に利用される可能性がある
+      //この場合、json.nameをHTMLとして解釈してしまう
+      // 例えば、json.nameが<script>alert('XSS')<script>の場合、alertが実行されてしまう
       profileDisplay.innerHTML = `<p>名前: ${json.name}</p><p>年齢: ${json.age}</p>`;
     </script>
   </head>

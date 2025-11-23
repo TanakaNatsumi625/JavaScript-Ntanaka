@@ -1,10 +1,17 @@
 <!doctype html>
 <html lang="ja">
   <head>
+    <!-- 書き換え前：146ms,　何も表示されない -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="/ch15.01-03/ex05/index2.js"></script>
+    <!-- DOMの準備を待たずして実行されてしまう→id=1000が見つからず、画面に何も表示されなくなる -->
+    <!-- Helloが表示されるようになる＋126ms -->
+    <!-- asyncよりdeferの方が早い？ -->
+    <script
+    src="index2.js"
+    defer="true"
+    ></script>
   </head>
   <body>
     <div hidden id="1">1</div>

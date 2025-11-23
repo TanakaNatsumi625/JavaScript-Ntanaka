@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>あなたの情報を自動解析中...</title>
+  <style>
+    body {
+      background: #111;
+      color: #0f0;
+      font-family: monospace;
+      padding: 20px;
+      white-space: pre-line;
+    }
+    .warning {
+      margin-top: 30px;
+      color: rgb(255, 255, 255);
+    }
+  </style>
+</head>
+<body>
+  <h2>■ あなたの端末情報を解析中...</h2>
+  <div id="info"></div>
+
+  <script>
+    const info = {
+      "エージェント": navigator.userAgent,
+      "ブラウザ名": navigator.appName,
+      "ブラウザバージョン": navigator.appVersion,
+      "コード名": navigator.appCodeName,
+      "言語設定": navigator.language,
+      "CPU論理コア数": navigator.hardwareConcurrency,
+      "オンライン状態": navigator.onLine,
+      "画面解像度": `${screen.width} x ${screen.height}`,
+      "ブラウザのプラットフォーム": navigator.platform,
+      "IPアドレス": ""
+    };
+
+    let output = "";
+    Object.entries(info).forEach(([k, v]) => {
+      output += `${k} : ${v}\n`;
+    });
+
+    document.getElementById("info").textContent = output;
+  </script>
+  <div>IPアドレス取得中…</div>
+  </script>
+    <div class="warning">
+        解析を留めたい場合は、以下のフォームにメールアドレスと電話番号を入力して送信してください。
+        担当スタッフからご連絡いたします。
+  </div>
+  <form action="index2.html" >
+    <input type="email" id="email" placeholder="メールアドレスを入力">
+    <input type="tel" id="phone" placeholder="電話番号を入力">
+    <button type="submit">送信</button>
+  </form>
+</body>
+</html>
