@@ -1,5 +1,6 @@
 // div 要素をクリックすると input 要素が focus される
 const div = document.getElementById("editor-front");
+div.style.backgroundColor = "white";
 const input = document.getElementById("editor-back");
 
 div.addEventListener("click", () => {

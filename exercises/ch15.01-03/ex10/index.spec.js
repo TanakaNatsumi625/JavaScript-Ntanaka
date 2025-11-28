@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 function gotoTestTarget(page) {
-  return page.goto("index.html");
+  return page.goto("http://127.0.0.1:5500/exercises/ch15.01-03/ex10/");
 }
 
 function getDiv(page) {
