@@ -4,44 +4,59 @@
     <title>Simple ToDo</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <script type="module" src="/ch15.04-10/ex02/index.js"></script>
+    <script type="module" src="index.js"></script>
     <!-- 以下の style.css は Tailwind CLI によって生成される -->
     <!-- html または js を変更した場合は README.md に従い Tailwind CLI を実行し style.css を再度生成すること -->
-    <link rel="stylesheet" href="/ch15.04-10/ex02/style.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <!-- IMPORTANT: ChatGPT にはここから下の内容しか変更させないこと -->
-  <body>
-    <form id="new-todo-form">
-      <input type="text" id="new-todo" placeholder="What needs to be done?" />
-      <button>Add</button>
+  <body class="bg-slate-100 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
+    <h1 class="text-2xl font-bold text-slate-800 text-center mb-4">
+      Simple ToDo
+    </h1>
+
+    <form
+      id="new-todo-form"
+      class="flex gap-2 mb-4"
+    >
+      <input
+        type="text"
+        id="new-todo"
+        placeholder="What needs to be done?"
+        class="flex-1 rounded-lg border border-slate-300 px-3 py-2
+               focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button
+        class="rounded-lg bg-blue-500 px-4 py-2 text-white font-semibold
+               hover:bg-blue-600 transition"
+      >
+        Add
+      </button>
     </form>
-    <ul id="todo-list">
-      <!-- NOTE: 以下のような要素を JavaScript で動的に追加する
-      <li class="completed">
-        <div class="view">
-          <input class="toggle" type="checkbox" checked />
-          <label class="content">研修の予習範囲を読む</label>
-          <button class="destroy"></button>
-        </div>
-      </li>
-      <li>
-        <div class="view">
-          <input class="toggle" type="checkbox" />
-          <label class="content">研修の練習問題を完了する</label>
-          <button class="destroy"></button>
-        </div>
-      </li>
-      -->
-    </ul>
+
+    <ul id="todo-list" class="space-y-2"></ul>
 
     <template id="todo-template">
-      <li>
-        <div class="view">
-          <input class="toggle" type="checkbox" />
-          <label class="content"></label>
-          <button class="destroy">❌</button>
+      <li
+        class="flex items-center justify-between rounded-lg border
+               border-slate-200 bg-slate-50 px-3 py-2"
+      >
+        <div class="flex items-center gap-3">
+          <input
+            class="toggle h-4 w-4 accent-blue-500"
+            type="checkbox"
+          />
+          <label class="content text-slate-800"></label>
         </div>
+        <button
+          class="destroy text-slate-400 hover:text-red-500 transition"
+          title="Delete"
+        >
+          ❌
+        </button>
       </li>
     </template>
-  </body>
+  </div>
+</body>
 </html>

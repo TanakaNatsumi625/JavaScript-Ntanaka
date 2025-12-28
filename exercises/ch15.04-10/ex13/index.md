@@ -1,0 +1,12 @@
+### hashbang(shebang)-シェバン
+-  元はシェルスクリプトの一行目に書く「#! ～～」のこと
+- Linux,UNIX系のOSで実行されるスクリプトファイルにおいて、先頭行でスクリプトを実行する処理系を指定する仕組みがあった
+    - 例えばPythonの場合、`#!/usr/bin/env python`のようにしておくことで、どのPythonの処理が実行される
+- URLにおける`#!/`は、GoogleやBingへわかりやすく示すために使われた。
+    - もともとハッシュの目的はドキュメントへのディープリンクを可能にすることであり、例えば`http://www.example.com/test.html#foo` は、ドメイン `www.example.com` のページ `test.html` に移動し、 name 属性 `foo`を持つ要素までスクロールすることを意味していた
+    - しかし、`http://www.example.com/test.html`をインデックスにしている場合、`http://www.example.com/test.html#foo`も`http://www.example.com/test.html#bar`も同じページ扱いになってしまう(#以降をURLとして認識されない)
+    - shebangは、ページのコンテンツを実際に変更するためにスクリプトを使用していることを知らせるための慣例として使われていた
+- 参考：
+    - https://wa3.i-3-i.info/word14690.html
+    - https://e-words.jp/w/%E3%82%B7%E3%83%90%E3%83%B3.html
+    - https://www.reddit.com/r/webdev/comments/2dckxe/question_why_use_shebang_instead_of_just_hash/?tl=ja

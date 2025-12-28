@@ -60,15 +60,23 @@
     span.textContent = sectionNumber;
     heading.prepend(span);
 
-    let anchor = document.createElement("a");
-    let fragmentName = `TOC${sectionNumber}`;
-    anchor.name = fragmentName;
-    heading.before(anchor);
-    anchor.append(heading);
+    let fragmentId = `TOC${sectionNumber}`;
+    heading.id = fragmentId;
+
 
     let link = document.createElement("a");
-    link.href = `#${fragmentName}`;
-    link.innerHTML = heading.innerHTML;
+    link.textContent = heading.textContent;
+
+    /* 追加分 */
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      document
+        .getElementById(fragmentId)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      /* NOTE: scrollTo または scrollIntoView でスムーズにスクロールしなさい  */
+      target.scrollIntoView({ behavior: "smooth" });
+    });
 
     let entry = document.createElement("div");
     entry.classList.add("TOCEntry", `TOCLevel${level}`);

@@ -1,3 +1,132 @@
-.completed {
+/* 全体レイアウト */
+/* 薄いグレーの背景にページの中央に配置する */
+/* 子要素(formやbuttonなど)は縦に並べる＝flex-direction: column; */
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f6fa;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* フォームレイアウト */
+/* form内の要素は横並びにする＝flex-direction: row; */
+/* 各要素の間隔を空ける＝gapプロパティを使用 */
+/* フォームの幅を親要素いっぱいに広げる＝width: 100%; */
+#new-todo-form {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+/* 入力欄のスタイル */
+/* ボタン以外で余ったスペースはすべて入力欄にする＝flex: 1; */
+/* 余白を作って入力しやすくする＝padding */
+/* 薄いグレーの枠・四隅を丸くする＝border: 1px solid #ccc; border-radius: 8px; */
+#new-todo {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.2s ease;
+}
+/* フォーカス時のスタイル */
+/* フォーカスしたら青枠にする */
+#new-todo:focus {
+  border-color: #4a90e2;
+}
+/* 青色の枠なし角丸ボタンのスタイル */
+/* テキストは白 */
+/* ホバー時は色の変化を滑らかにする。0.2秒かけて変化する */
+#new-todo-form button {
+  padding: 12px 20px;
+  background: #4a90e2;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+/* ホバー時のスタイル */
+#new-todo-form button:hover {
+  background: #357abd;
+}
+
+/* リスト全体のスタイル */
+/*  デフォルトの箇条書きの点を消す＝list-style: none; */
+#todo-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* ToDoアイテム */
+/* 白背景の角丸スタイル */
+/* 少し浮いたような影＝box-shadow */
+#todo-list li {
+  background: white;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+/* Todoリストのホバー時のスタイル */
+#todo-list li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ToDoアイテムの中身のレイアウト */
+/* 中身(✕とか)を横並びに並べる */
+.view {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+/* チェックボックスのスタイル */
+/* クリックできることを明確に示す(ホバー時カーソルが変化する)＝cursor: pointer; */
+.toggle {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+/* テキスト部分 */
+.content {
+  flex: 1;
+  font-size: 17px;
+}
+
+/* 背景色透明・枠線なし削除ボタン */
+/* 通常時は半透明＝opacity: 0.6; */
+.destroy {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+/* ホバー時のスタイル */
+/* ホバーしたら不透明度を上げて拡大する */
+.destroy:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* 完了したToDo */
+/* 横線を引く＝text-decoration: line-through; */
+.completed .content {
   text-decoration: line-through;
+  color: #999;
 }

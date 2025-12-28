@@ -1,0 +1,129 @@
+/* ------------- 全体の背景をハチワレカラーに ------------- */
+body {
+  font-family: "Segoe UI", sans-serif;
+
+  /* --- ★ 線が出ない単一グラデーション背景（ハチワレ風） --- */
+  background: radial-gradient(circle at 30% 20%, #d8ecff, transparent 70%),
+              radial-gradient(circle at 70% 80%, #e6f3ff, transparent 70%),
+              #ffffff;
+
+  background-attachment: fixed; /* スクロール時も滑らか */
+
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #444;
+}
+
+/* タイトル（必要なら） */
+h1 {
+  color: #4a80d0; /* 優しいブルー */
+  font-weight: 600;
+}
+
+/* ------------- フォーム ------------- */
+#new-todo-form {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+/* 入力欄（ハチワレの白くて柔らかい感じ） */
+#new-todo {
+  flex: 1;
+  padding: 14px 18px;
+  font-size: 16px;
+  border: 2px solid #bcd9ff;
+  border-radius: 16px;
+  outline: none;
+  background: #fff;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+#new-todo:focus {
+  border-color: #7ab2ff;
+  box-shadow: 0 0 6px rgba(122, 178, 255, 0.4);
+}
+
+/* 追加ボタン（ハチワレの青） */
+#new-todo-form button {
+  padding: 12px 20px;
+  background: #7ab2ff;
+  border: none;
+  color: white;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#new-todo-form button:hover {
+  background: #5d97e6;
+  transform: translateY(-2px);
+}
+
+/* ------------- ToDo リスト ------------- */
+#todo-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* ToDoアイテム（ふわふわのカード風） */
+#todo-list li {
+  background: white;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 8px rgba(150, 180, 220, 0.2);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+#todo-list li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 12px rgba(150, 180, 220, 0.25);
+}
+
+/* チェックボックス */
+.toggle {
+  width: 22px;
+  height: 22px;
+  margin-right: 12px;
+  cursor: pointer;
+  accent-color: #7ab2ff; /* ハチワレブルー */
+}
+
+/* テキスト部分 */
+.content {
+  flex: 1;
+  font-size: 17px;
+  color: #333;
+}
+
+/* 削除ボタンも優しい感じに */
+.destroy {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.destroy:hover {
+  opacity: 1;
+  transform: scale(1.15);
+  color: #ff7f7f; /* 優しいピンク。攻撃力低め */
+}
+
+/* 完了したToDo（淡いグレーで優しく） */
+.completed .content {
+  text-decoration: line-through;
+  color: #aac;
+}

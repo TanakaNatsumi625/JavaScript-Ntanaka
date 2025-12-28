@@ -2,22 +2,22 @@ export class IgnoreAccentPattern {
     constructor(pattern) {
         if (typeof pattern === 'string') {
             //文字列の場合、アクセントを除去して正規表現を作成
-            const normalizedPattern = pattern.normalize("NFD").replace(/[\u0300-\u036f]/, "");
+            const normalizedPattern = pattern.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             this.pattern = new RegExp(normalizedPattern);
         } else if (pattern instanceof RegExp) {
             //正規表現の場合、パターン文字列をアクセント除去して新しい正規表現を作成
-            const normalizedPattern = pattern.source.normalize("NFD").replace(/[\u0300-\u036f]/, "");
+            const normalizedPattern = pattern.source.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             const flags = pattern.flags;
             this.pattern = new RegExp(normalizedPattern, flags);
         }
     }
     [Symbol.search](str) {
         //文字列を正規化し、アクセントの範囲を取り除く(“”に置き換え)
-        const normalizedStr = str.normalize("NFD").replace(/[\u0300-\u036f]/, "");
+        const normalizedStr = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         return normalizedStr.search(this.pattern);
     }
     [Symbol.match](str) {
-        const normalizedStr = str.normalize("NFD").replace(/[\u0300-\u036f]/, "");
+        const normalizedStr = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
        return normalizedStr.match(this.pattern);
 
     }

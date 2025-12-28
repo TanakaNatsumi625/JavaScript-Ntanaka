@@ -45,4 +45,31 @@ form.addEventListener("submit", (e) => {
 
 window.addEventListener("hashchange", () => {
   // ここを実装してね
+  console.log(location.hash);
+  if (location.hash === "#/completed") {//もしハッシュが#/completedなら
+    //完了分
+    console.log(`todos:`, todos);
+    //todoの配列の例
+    // 0:  {content: 'テスト', completed: true}
+    // 1:  {content: 'test', completed: true}
+    // 2:  {content: '勤怠', completed: false}
+
+    const completedTodos = todos.filter((todo) => todo.completed);//完了したものだけ抽出
+    console.log(`completedTodos:`, completedTodos);
+    renderTodos(completedTodos);//完了したものだけ表示
+
+
+  } else if (location.hash === "#/active") {
+    //未完了分
+    console.log(`todos:`, todos);
+    const activeTodos = todos.filter((todo) => !todo.completed);
+    console.log(`activeTodos:`, activeTodos);
+    renderTodos(activeTodos);
+
+  } else {
+    //ALL
+    renderTodos(todos);
+  }
+
+
 });
