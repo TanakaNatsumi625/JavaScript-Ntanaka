@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <title>Upload to OneDrive</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="module" src="index.js"></script>
+    <!-- スタイル -->
+    <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>OneDriveにファイルをアップロード</h1>
+        <div class="field">
+            <label for="file-input">アップロードするファイルを選択:</label>
+            <input type="file" id="file-input" />
+        </div>
+        <div class="field">
+            <label for="access-token">アクセストークン:</label>
+            <!-- postManで動作確認した際、パスワードを隠していたのと、表示非表示切り替えていたのを参考にした -->
+            <!-- 認証情報なので、パスワード入力フィールドを使用 -->
+            <input type="password" id="access-token" /><br />
+            <!-- PostManのように目のマークにしたかったが、今回は時間的にトグルにした -->
+            <label>
+                <input type="checkbox" id="toggle-token" />
+                アクセストークンを表示する
+            </label>
+        </div>
+        
+            <button id="upload-button">OneDriveにアップロード</button>
+             <p id="upload-state"></p>
+        </div>
+    </div>
+</body>
+
+</html>

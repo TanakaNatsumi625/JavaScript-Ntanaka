@@ -36,7 +36,7 @@ let sechand = document.querySelector("#clock .secondhand");
 minhand.setAttribute("transform", `rotate(${minangle},50,50)`);
 hourhand.setAttribute("transform", `rotate(${hourangle},50,50)`);
 sechand.setAttribute("transform", `rotate(${secangle},50,50)`);
-// 10 秒後にこの関数を再度実行する。
-setTimeout(updateClock, 10000);
+// 1 秒後にこの関数を再度実行する。
+setTimeout(updateClock, 1000);
 }()); // ここで関数を即座に実行していることに注意。
 

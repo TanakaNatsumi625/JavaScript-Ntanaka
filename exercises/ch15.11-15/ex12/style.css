@@ -1,0 +1,79 @@
+body {
+    font-family: system-ui, sans-serif;
+    background: #f5f6f8;
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    box-sizing: border-box;
+    height: 100vh;
+    padding: 16px;
+    margin: 0 auto;
+}
+
+/* チャット欄は中心に枠を設けて配置 */
+/* コンテナの中のテキスト入力欄やボタンをpaddingを持たせて余白を作りつつ配置 */
+/* border-radiusで少し角を丸く */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+}
+
+/* ===== メッセージ行 ===== */
+.user-message,
+.assistant-message {
+    display: flex;
+    margin: 5px 0;
+    border-radius: 4px;
+}
+
+/* ユーザー行 → 右寄せ */
+.user-message {
+    justify-content: flex-end;
+    background: #2563eb;
+    color: #fff;
+}
+
+/* アシスタント行 → 左寄せ */
+.assistant-message {
+    justify-content: flex-start;
+    background: #e1ffc7;
+    color: #111;
+}
+
+/* 入力欄と送信ボタンを横並びにするコンテナ */
+.input-area {
+    display: flex;
+    /* 横並びにする */
+    gap: 8px;
+    /* テキストエリアとボタンの間隔 */
+    margin-top: 12px;
+}
+
+/* テキストエリア */
+.input-area textarea {
+    flex: 1;
+    /* 横幅を可能な限り広げる */
+    resize: none;
+    /* ユーザーによるサイズ変更を禁止（好み） */
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* 送信ボタン */
+.send-button {
+    padding: 0 16px;
+    border-radius: 8px;
+    border: none;
+    background: #2563eb;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}

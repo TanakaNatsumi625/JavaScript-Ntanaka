@@ -45,6 +45,15 @@ async function serveContentsHandler(url, _req, res) {
 function cspMiddleware(_url, req, res) {
   // TODO: CSP ヘッダを設定する
   // res.setHeader("Content-Security-Policy", "TODO");
+  // https://qiita.com/buttakyou/items/d797d8fe932191a316bb
+  // self：同じオリジンからの読み込みを許可→なので'hello.js' 'self'と書くと、'hello.js'と同じオリジンを持つリソースを許可する
+  // よって、hello.jsのみの許可はできない
+  // nonceを使う方法にした。
+  //この課題の道中でハッシュによる方法を試みた時のRicohのアラートSha-256値
+  res.setHeader(
+    "Content-Security-Policy",
+    "script-src 'nonce-fWI/Pz8/Pz8zdXM/P1BmP20/Zz8/Pz81DQo='",
+  );
   return true;
 }
 
