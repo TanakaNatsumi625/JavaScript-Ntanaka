@@ -14,7 +14,15 @@ async function addToDo(page, todo) {
  * @param {number} index
  */
 async function checkToDo(page, index) {
-  await page.getByRole("listitem").nth(index).getByRole("checkbox").check();
+  // index番目のToDoリストのチェックボックスをクリックする
+  // await page.getByRole("listitem").nth(index).getByRole("checkbox").check();
+  // ↑はIndexedDBの反映が完了する前に次の処理に進んでしまうため、以下のように分ける
+  // チェック付けるまで待つようにする
+  const checkbox = page
+    .getByRole("listitem")
+    .nth(index)
+    .getByRole("checkbox");
+  await checkbox.check();
 }
 
 /**
@@ -125,35 +133,42 @@ test.describe.skip("simple todo app with IndexedDB", () => {
 
 test.describe("multi tab sync", () => {
   test("別タブで追加したToDoリストが反映される", async ({ browser }) => {
-    const page1 = await browser.newPage();
-    const page2 = await browser.newPage();
-
-    await page1.goto("http://127.0.0.1:5500/exercises/ch15.11-15/ex05/index.html");
-    await page2.goto("http://127.0.0.1:5500/exercises/ch15.11-15/ex05/index.html");
-    // IndexedDBのデータをクリアする
-    await page1.evaluate(() => {
+    const page = await browser.newPage();
+    await page.goto("http://127.0.0.1:5500/exercises/ch15.11-15/ex05/index.html");
+    // 初期化
+    await page.evaluate(() => {
       indexedDB.deleteDatabase("ToDoApp");
     });
-    // 再度両方のタブを読み込み
-    await page1.reload();
-    await page2.reload();
-
-    // page2 が初期描画を終え、リストが空であることを確認
-    await page2.waitForFunction(() => {
-      return document.querySelectorAll("#todo-list li").length === 0;
+    await page.reload();
+    page.close();
+    
+    const page1 = await browser.newPage();
+    await page1.goto("http://127.0.0.1:5500/exercises/ch15.11-15/ex05/index.html");
+    const page2 = await browser.newPage();
+    await page2.goto("http://127.0.0.1:5500/exercises/ch15.11-15/ex05/index.html");
+    page1.on("console", msg => {
+      console.log("PAGE1:", msg.type(), msg.text());
     });
-    // page1でToDoリストを追加
-    await addToDo(page1, "別タブで追加したToDoリスト");
 
-    await expect(page2.locator("#todo-list li")).toHaveCount(1);
+    page2.on("console", msg => {
+      console.log("PAGE2:", msg.type(), msg.text());
+    });
 
-    expect(await countToDos(page2)).toBe(1);
-    const todo = queryToDo(page2, 0);
-    const label = todo.getByText("別タブで追加したToDoリスト");
-    await expect(label).toBeVisible();
-    await expect(label).toHaveCSS("text-decoration-line", "none");
 
-    await page1.close();
-    await page2.close();
+
+    // page1でリスト追加
+    await addToDo(page1, "質問表に質問を記載する");
+
+    await expect.poll(async () => {
+      return await countToDos(page2);
+    }).toBe(1);
+
+    const todoInPage2 = queryToDo(page2, 0);
+    const labelInPage2 = todoInPage2.getByText("質問表に質問を記載する");
+    await expect(labelInPage2).toBeVisible();
+    await expect(labelInPage2).toHaveCSS("text-decoration-line", "none");
+
+    page1.close();
+    page2.close();
   });
 });

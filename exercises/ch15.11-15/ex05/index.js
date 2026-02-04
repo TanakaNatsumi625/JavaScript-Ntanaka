@@ -1,22 +1,24 @@
+// BroadcastChannelを使って他のタブと通信する(後半課題内容)
+const channel = new BroadcastChannel("todo_channel");
+
 const form = document.querySelector("#new-todo-form");
 const list = document.querySelector("#todo-list");
 const input = document.querySelector("#new-todo");
 
-// BroadcastChannelを使って他のタブと通信する(後半課題内容)
-const channel = new BroadcastChannel("todo_channel");
 // 他のタブからメッセージを受け取ったときの処理
-channel.addEventListener("message", async (event) => {
-  console.log("Message received from other tab:", event.data);
+channel.onmessage = async (event) => {
   if (event.data.type === "updated") {
-    // ToDoリストが更新されたので、再読み込みする
+    console.log("Received update message from another tab");
+    // ToDoリストを再読み込みして表示を更新する
     list.innerHTML = "";
     const items = await getAllTasks();
     items.forEach((item) => {
       appendToDoItem(item);
     });
   }
-});
+};
 
+// DOMContentLoadedイベントが発生したときの処理
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("Document loaded");
   // IndexedDBからToDoリストを読み込む
@@ -108,100 +110,117 @@ function appendToDoItem(item) {
 //   status: "active" | "completed"
 // }
 
+// 参考：https://developer.mozilla.org/ja/docs/Web/API/IndexedDB_API/Using_IndexedDB
+// 参考：https://web.dev/articles/indexeddb?hl=ja
+
 //マジックコードは使わないように定義する(実務より)
 const DB_NAME = "ToDoApp";
 const DB_VERSION = 1;
 const STORE_NAME = "tasks";
-function openDB() {
+async function openDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
-
+    request.onerror = (event) => {
+      console.error("Database error:", event.target.error);
+      reject(event.target.error);
+    };
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
       if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
+        const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+        store.createIndex("name", "name");
+        store.createIndex("status", "status");
       }
     };
-
     request.onsuccess = (event) => {
       resolve(event.target.result);
     };
-
-    request.onerror = (event) => {
-      reject(event.target.error);
-    };
+  });
+}
+// トランザクションを完了するまで待つユーティリティ関数
+function waitForTransactionComplete(transaction) {
+  return new Promise((resolve, reject) => {
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = (event) => reject(event.target.error);
+    transaction.onabort = (event) => reject(event.target.error);
   });
 }
 
 //タスク追加用関数
 async function addTask(name) {
   const DB = await openDB();
-  // この問い合わせ用の読み出し専用のトランザクションオブジェクトを作成する。
-  // 引数には、使用する必要のあるオブジェクトストアの配列を指定する。(fromテキスト参照)
-  const tx = DB.transaction([STORE_NAME], "readwrite");
-  const store = tx.objectStore(STORE_NAME);
+  const transaction = DB.transaction([STORE_NAME], "readwrite");
+  const store = transaction.objectStore(STORE_NAME);
+  const id = Date.now(); // ユニークなIDを生成
 
-   const task = {
-    name,
+  const task = {
+    id: id,
+    name: name,
     status: "active"
   };
-
+  
   store.add(task);
+  await waitForTransactionComplete(transaction);
+  console.log("Task added:", task);
 
-  await new Promise((resolve, reject) => {
-    tx.oncomplete = resolve;
-    tx.onerror = reject;
-    tx.onabort = reject;
-  });
   // 他のタブに通知する
   channel.postMessage({ type: "updated" });
 
-  // return result;
-}
+  return task;
+
+  }
 
 //タスク取得用関数
 async function getAllTasks() {
   const DB = await openDB();
-  const tx = DB.transaction([STORE_NAME], "readonly");
-  const store = tx.objectStore(STORE_NAME);
-  const request = store.getAll();
+  const transaction = DB.transaction([STORE_NAME], "readonly");
+  const store = transaction.objectStore(STORE_NAME);
 
+  const allTasks = store.getAll();
+  
   return new Promise((resolve, reject) => {
-    request.onsuccess = (event) => {
-      resolve(event.target.result);
+    allTasks.onsuccess = () => {
+      resolve(allTasks.result);
     };
-    request.onerror = (event) => {
-      reject(event.target.error);
+    allTasks.onerror = () => {
+      reject(allTasks.error);
     };
   });
+
 }
 
 //タスク更新
 async function updateTask(task) {
   const DB = await openDB();
-  const tx = DB.transaction([STORE_NAME], "readwrite");
-  const store = tx.objectStore(STORE_NAME);
-  const result = await store.put(task);
-  console.log("Task updated:", result);
+  const transaction = DB.transaction([STORE_NAME], "readwrite");
+  const store = transaction.objectStore(STORE_NAME);
+  //タスクを追加する
+  store.put(task);
+  console.log("Task updated:", task);
+
+  // トランザクションが完了するまで待つ
+  await waitForTransactionComplete(transaction);
 
 // 他のタブに通知する
   channel.postMessage({ type: "updated" });
 
-  return tx.complete;
+  return;
 }
 
 //タスク削除
 async function deleteTask(id) {
   const DB = await openDB();
-  const tx = DB.transaction([STORE_NAME], "readwrite");
-  const store = tx.objectStore(STORE_NAME);
+  const transaction = DB.transaction([STORE_NAME], "readwrite");
+  const store = transaction.objectStore(STORE_NAME);
+
+  store.delete(id);
   
-  const result = await store.delete(id);
-  console.log("Task deleted:", result);
+  // トランザクションが完了するまで待つ
+  const tx = await waitForTransactionComplete(transaction);
 
   // 他のタブに通知する
   channel.postMessage({ type: "updated" });
 
-  return tx.complete;
+  return;
 }
 
