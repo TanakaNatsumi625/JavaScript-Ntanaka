@@ -2,7 +2,7 @@ import { Worker } from "worker_threads";
 import path from "path";
 
 // フィボナッチ数とスレッド数を指定
-const fibNumber = parseInt(process.argv[2]) || 40; // フィボナッチ数
+const fibNumber = parseInt(process.argv[2]) || 45; // フィボナッチ数
 const numThreads = parseInt(process.argv[3]) || 4; // スレッド数
 let currentTask = 0; // 現在のタスク番号
 let results = [];

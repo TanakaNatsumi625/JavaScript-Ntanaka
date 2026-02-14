@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>GoogleMap Address Search</title>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB__72p8SI9HptvKbBahJW-VcLEd97tE8&language=ja"></script>
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    #controls {
+      padding: 8px;
+      background: #fff;
+    }
+    #map {
+      height: calc(100% - 50px);
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="controls">
+    <input type="text" id="address" placeholder="住所を入力" size="40">
+    <button onclick="searchAddress()">検索</button>
+  </div>
+
+  <div id="map"></div>
+
+  <script>
+    let map;
+    let geocoder;
+    let marker;
+
+    function initMap() {
+      const initialLatLng = { lat: 35.6811673, lng: 139.7670516 }; // 東京駅
+
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 15,
+        center: initialLatLng,
+        mapTypeId: "roadmap",
+      });
+
+      geocoder = new google.maps.Geocoder();
+
+      marker = new google.maps.Marker({
+        position: initialLatLng,
+        map: map,
+      });
+    }
+
+    function searchAddress() {
+      const address = document.getElementById("address").value;
+      if (!address) return;
+
+      geocoder.geocode({ address: address }, (results, status) => {
+        if (status === "OK") {
+          const location = results[0].geometry.location;
+          console.log(location.toString());
+
+          map.setCenter(location);
+          marker.setPosition(location);
+        } else {
+          alert("住所が見つかりません: " + status);
+        }
+      });
+    }
+
+    // 初期化
+    initMap();
+  </script>
+</body>
+</html>
