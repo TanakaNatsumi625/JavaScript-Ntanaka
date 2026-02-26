@@ -1,86 +1,138 @@
+// Express フレームワークわかりやすい入門：https://qiita.com/ryome/items/16659012ed8aa0aa1fac
 // これは指定されたディレクトリからファイルを提供するシンプルで静的なHTTP
 // サーバ。また、受信したリクエストをエコーする特別な/test/mirror
 // エンドポイントも実装している。これは、クライアントをデバッグする際に便利。
-const http = require("http"); // 証明書を持っている場合は「https」を使用する。
-const url = require("url"); // URL 解析用。
+const express = require('express');
 const path = require("path"); // ファイルシステムのパス操作用。
-const fs = require("fs"); // ファイル読み込み用。
+const app = express();
+const fs = require('fs'); // ファイル読み込み用。
+
+const ROOT_DIR = path.resolve(__dirname, process.argv[2] || 'public'); // ルートディレクトリを絶対パスで指定
+const PORT = parseInt(process.argv[3]) || 3000;
+
+// リクエストをログに記録するミドルウェアを実装
+const loggerMiddleware = function (req, res, next) {
+    console.log(`[${new Date()}] ${req.method} ${req.url}`);
+    next();
+};
+
+app.use(loggerMiddleware);
+
+// リクエストボディを解析するミドルウェア
+app.use(express.text({ type: '*/*' }));
+
+// 静的ファイルを提供するミドルウェアを実装
+app.use(express.static('ROOT_DIR'));
 
 
-// 指定されたポートで待ち受けるHTTP サーバを介して、
-// 指定されたルートディレクトリのファイルを提供する。
-function serve(rootDirectory, port) {
-    let server = new http.Server(); // 新しいHTTP サーバを作成する。
-    server.listen(port); // 指定されたポートで待ち受ける。
-    console.log("Listening on port", port);
-    // リクエストが届いたら、この関数で処理を行う。
-    server.on("request", (request, response) => {
-        // リクエストURL のパス部分を取得する。その際、付加されている
-        // クエリパラメータは無視する。
-        let endpoint = url.parse(request.url).pathname;
-        // リクエストが「/test/mirror」の場合、リクエストをそのまま送り返す。
-        // リクエストのヘッダやボディを見たい場合に便利。
-        if (endpoint === "/test/mirror") {
-            // レスポンスヘッダを設定する。
-            response.setHeader("Content-Type", "text/plain; charset=UTF-8");
-            // レスポンスのステータスコードを指定する。
-            response.writeHead(200); // 200 OK
-            // レスポンスボディの最初はリクエスト。
-            response.write(`${request.method} ${request.url} HTTP/${request.httpVersion
-                }\r\n`);
-            // リクエストヘッダを出力する。
-            let headers = request.rawHeaders;
-            for (let i = 0; i < headers.length; i += 2) {
-                response.write(`${headers[i]}: ${headers[i + 1]}\r\n`);
-            }
-            // ヘッダの末尾に空行を追加する。
-            response.write("\r\n");
-            // 次に、リクエストボディをレスポンスボディにコピーする必要がある。
-            // 両方ともストリームなので、パイプを使うことができる。
-            request.pipe(response);
-        }
-        // それ以外の場合は、ローカルディレクトリからファイルを提供する。
-        else {
-            // エンドポイントをローカルファイルシステムのファイルにマッピングする。
-            let filename = endpoint.substring(1); // 最初の/を取り除く。
-            // パス中の「../」を禁止する。ルートディレクトリの外側のファイルを提供する
-            // ことになり、セキュリティホールになるから。
-            filename = filename.replace(/\.\.\//g, "");
-            // 次に、相対パスを絶対パスに変換する。
-            filename = path.resolve(rootDirectory, filename);
-            // 拡張子に基づいて、ファイルのコンテンツタイプを推測する。
-            let type;
-            switch (path.extname(filename)) {
-                case ".html":
-                case ".htm": type = "text/html"; break;
-                case ".js": type = "text/javascript"; break;
-                case ".css": type = "text/css"; break;
-                case ".png": type = "image/png"; break;
-                case ".txt": type = "text/plain"; break;
-                default: type = "application/octet-stream"; break;
-            }
-            let stream = fs.createReadStream(filename);
-            stream.once("readable", () => {
-                // ストリームが読み込めるようになったら、Content-Type ヘッダと
-                // 200 OK ステータスを設定する。そして、ファイル読み出し
-                // ストリームをレスポンスにパイプする。ストリームが終了すると、
-                // パイプは自動的にresponse.end() を呼び出す。
-                response.setHeader("Content-Type", type);
-                response.writeHead(200);
-                stream.pipe(response);
-            });
-            stream.on("error", (err) => {
-                // ストリームを開こうとしてエラーが発生した場合、
-                // そのファイルはおそらく存在しないか、読めないと思われる。
-                // エラーメッセージをプレーンテキストで記述して、
-                // 404 Not Found レスポンスを送信する。
-                response.setHeader("Content-Type", "text/plain; charset=UTF-8");
-                response.writeHead(404);
-                response.end(err.message);
-            });
-        }
-    });
+// 拡張子→Content-Type（元コードと同じマッピング）
+// ここにない拡張子が来ると“application/octet-stream”になる(テストで失敗した)
+function guessContentType(filename) {
+  switch (path.extname(filename).toLowerCase()) {
+    case '.html':
+    case '.htm': return 'text/html; charset=UTF-8';
+    case '.js':  return 'text/javascript; charset=UTF-8';
+    case '.css': return 'text/css; charset=UTF-8';
+    case '.png': return 'image/png';
+    case '.jpg': return 'image/jpeg';
+    case '.txt': return 'text/plain; charset=UTF-8';
+    default:     return 'application/octet-stream';
+  }
 }
 
-// コマンドラインから起動された場合は、serve() 関数を呼び出す。
-serve(process.argv[2] || "/tmp", parseInt(process.argv[3]) || 8000);
+// 静的ファイル配信用のカスタムミドルウェア
+app.use((req, res, next) => {
+  // 既に定義されている特定のエンドポイントはスキップ
+  if (req.path === '/test/mirror' || req.path === '/' || req.method !== 'GET') {
+    return next();
+  }
+
+  // URLデコード
+  const endpoint = decodeURIComponent(req.path); 
+  let filename = endpoint.substring(1); // 最初の/を取り除く
+
+  // ../ を除去
+  filename = filename.replace(/\.\.\//g, ""); // 例: docs/readme.txt
+
+  // 絶対パス化
+  const absPath = path.resolve(ROOT_DIR, filename);
+
+  // ルート外アクセスの拒否
+  // 例: /files/../../secret → ROOT_DIR で始まらないので拒否
+  const rootWithSep = ROOT_DIR.endsWith(path.sep) ? ROOT_DIR : ROOT_DIR + path.sep;
+  if (!absPath.startsWith(rootWithSep)) {
+    return res.status(403).type('text/plain; charset=UTF-8').send('403 Forbidden');
+  }
+
+  // コンテンツタイプ
+  const type = guessContentType(absPath);
+
+  //ストリームで返す（元コードと同じ流れ）
+  const stream = fs.createReadStream(absPath);
+
+  stream.once('readable', () => {
+    res.set('Content-Type', type);
+    // res.writeHead(200) は Express では不要。status を明示したいなら res.status(200)
+    stream.pipe(res);
+  });
+
+  stream.on('error', (err) => {
+    if (err.code === 'ENOENT') {
+      return next(); // 404の場合は次のミドルウェアに進む
+    } else {
+      next(err); // 500 ハンドラに委譲
+    }
+  });
+});
+
+// リクエストの鏡写し/test/mirrorエンドポイント
+// 以下が返ってくる
+// 
+app.get('/test/mirror', (req, res) => {
+    // レスポンスヘッダを設定する
+    res.setHeader("Content-Type", "text/plain; charset=UTF-8");
+    
+    // レスポンスボディの最初はリクエスト
+    let responseBody = `${req.method} ${req.url} HTTP/${req.httpVersion}\r\n`;
+    
+    // リクエストヘッダを出力する
+    for (const [key, value] of Object.entries(req.headers)) {
+        responseBody += `${key}: ${value}\r\n`;
+    }
+    
+    // ヘッダの末尾に空行を追加
+    responseBody += "\r\n";
+    
+    // リクエストボディがある場合は追加
+    if (req.body) {
+        responseBody += req.body;
+    }
+    
+    res.status(200).send(responseBody);
+});
+
+// 404ハンドラ（最後に配置）
+app.use((req, res) => {
+    res.status(404).type('text/plain; charset=UTF-8').send('404 Not Found');
+});
+
+app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+});
+
+
+// これが Supertest から使われる
+module.exports = app;
+
+
+// ログのミドルウェアを起動しておくと、例えば以下のようにログが出る
+// Listening on port 3000
+// [Thu Feb 26 2026 23:03:49 GMT+0900 (日本標準時)] GET /test/mirror
+// [Thu Feb 26 2026 23:04:25 GMT+0900 (日本標準時)] GET /test/mirror
+// [Thu Feb 26 2026 23:05:07 GMT+0900 (日本標準時)] GET /images
+// [Thu Feb 26 2026 23:05:07 GMT+0900 (日本標準時)] GET /images/
+// Error: EISDIR: illegal operation on a directory, read
+// [Thu Feb 26 2026 23:05:27 GMT+0900 (日本標準時)] GET /images/test.jpg
+// [Thu Feb 26 2026 23:05:33 GMT+0900 (日本標準時)] GET /images/test.jpg
+// [Thu Feb 26 2026 23:05:51 GMT+0900 (日本標準時)] GET /doc/README.txt
+// [Thu Feb 26 2026 23:06:00 GMT+0900 (日本標準時)] GET /docs/README.txt
