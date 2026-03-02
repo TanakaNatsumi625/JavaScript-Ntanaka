@@ -1,0 +1,9 @@
+{
+  "name": "ex08",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+   "bin": {
+    "gh-issue": "./index.js"
+  }
+}
