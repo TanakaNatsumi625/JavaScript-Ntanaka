@@ -18,7 +18,7 @@ const html = `<!doctype html>
      </body>
    </html>`;
 
-
+// TCPサーバーを作成する
 const server = net.createServer((socket) => {
     socket.on("data", (data) => {
         const requestText = data.toString();
@@ -32,9 +32,9 @@ const server = net.createServer((socket) => {
         // HTTPリクエストの最初の行を解析する
         const requestLine = requestText.split("\r\n")[0];
         console.log("Request Line:", requestLine); //Request Line: GET / HTTP/1.1
+
         // 上記で分けたGet,/,HTTP/1.1をそれぞれ変数に入れる
         const [method, path, version] = requestLine.split(" ");
-
         console.log("Method:", method, "Path:", path, "Version:", version); //Method: GET Path: / Version: HTTP/1.1
 
         // HTTPレスポンスを送る
