@@ -1,0 +1,23 @@
+### `@babel/preset-typescript`や`tsc`の違いを調べる
+- 参考：https://qiita.com/nacam403/items/edf3e2c8ff364aff910f
+- 参考：https://qiita.com/niwasawa/items/d6535bb1ca4d44299eae
+- 参考：https://zenn.dev/crsc1206/articles/0b0960fa306d71 ←WebPackとの関係性や他のトランスパイルについてもまとまっていてわかりやすい
+- https://t-yng.jp/post/tsc-and-babel ←なぜBabelを使うのか、tscでは足りないのかがわかりやすく書いてある
+
+- `tsc`はコマンド・コマンドラインツールで使えるコンパイラ。 `@babel/preset-typescript`はBabelのプリセット
+-  `@babel/preset-typescript`が出る前は`tsc`コマンドを使ってJSに変換してコンパイルする必要があった
+- `tsc`は以下を行っている
+    - 型チェック（静的解析）をして、コードに型のエラーが無いか確認する。
+    - TypeScriptのコードをJavaScriptに変換する。
+- `@babel/preset-typescript`は上記のうち、コードの変換を担当する
+    - 型を消す
+    - TypeScriptからES2015以降への変換を担当する。
+- 使い分け？について
+- 以前からtscを使っていた人にとって、わざわざBabelに乗り換える必要はない
+    - Babelは型チェックをしないので、安全性で言えばtscを使う方がよさそう
+    - しかし、JSの構文だけをトランスパイスの対象としているので、Promiseなどの組み込みオブジェクトは対象から外れてしまうなどがある→例えばIE11では動かなくなってしまう
+- 一方 `@babel/preset-typescript`はプラグインやプリセットを組み合わせて柔軟に変換ができるようになる
+- ビルドも早い
+    - モジュール読み込みも含むので、WebPackを利用して解決する必要がある
+    - ビルドは `@babel/preset-typescript`、型チェックは `tsc --noEmit(ts-loader)`の組み合わせで使われることが多い
+    - もしくは`fork-ts-checker-webpack-plugin`と`@babel/preset-typescript`

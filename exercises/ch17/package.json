@@ -1,0 +1,27 @@
+{
+  "name": "ch17",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
+    "build": "webpack --config webpack.config.js",
+    "build:prod": "webpack --config webpack.config.js --mode production",
+    "start": "webpack serve --config webpack.config.js --open"
+  },
+  "dependencies": {
+    "@pollyjs/persister-fs": "^6.0.6",
+    "prettier": "^3.8.1"
+  },
+  "bin": {
+    "gh-issue": "./ex02/index.js"
+  },
+  "devDependencies": {
+    "@pollyjs/adapter-node-http": "^6.0.6",
+    "@pollyjs/core": "^6.0.6",
+    "@pollyjs/persister": "^6.0.6",
+    "jest": "^30.3.0",
+    "webpack": "^5.105.4",
+    "webpack-cli": "^7.0.2",
+    "webpack-dev-server": "^5.2.3"
+  }
+}

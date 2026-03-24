@@ -1,0 +1,21 @@
+### npm に同梱されている npx を利用することにはどのような利点があるのか
+- 参考：https://qiita.com/yamatai12/items/d72424253f69aa38ce05
+- 参考：https://dev.classmethod.jp/articles/node-npm-npx-getting-started/
+- npxとは
+    - Node Package eXecuteの略
+    - 通常はnpmでインストールするパッケージをその場で一時的に実行するためのコマンド
+- 利点
+    - Package.jsonにscriptの設定をしたり、node_modules/binのコマンドを確認しなくても実行できる
+    - ローカルにインストールしていなくてもリモートにあるコマンド(GitHubのOSSとか)も実行できる
+- ローカルにパッケージをインストールした場合、そのプロジェクトのnode_moduleは以下にインストールされる
+- コマンドを提供するパッケージだった場合、node_modules/.bin/配下にコマンドが配置される
+    - よって、実は`$./node_modules/.bin/cowsay 'ほむら'`のように実行することもできるが、これはめんどくさい
+- よって、よく使うのがPackage.jsonのscript
+- しかしオプション込でscriptにコマンドを設定するならまだしも、ただのコマンドを何個も書くのもめんどくさい
+- よって、npxを使うことで初期設定なしでコマンドを実行できる
+- npxがコマンドを探す順番は以下
+    - ローカルパッケージ（node_modules/.bin）
+    - 環境変数PATH
+        - Nodeと合関係ないコマンドも実行できる
+    - npmレジストリ
+        - インストールされていないコマンドであっても、パッケージを探してダウンロードして実行知ってくれる
