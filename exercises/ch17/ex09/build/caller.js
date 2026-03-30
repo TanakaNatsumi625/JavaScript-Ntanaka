@@ -1,7 +1,3 @@
-// 以下を参考にして実行できるようにした
-// https://dev.classmethod.jp/articles/lambda-node-js-flow-type-check/
-// →FLOWのままでは実行できないため、Flowの型定義をコメントアウトして、JavaScriptとして実行できるようにした
-// →build内にJavaScriptファイルが生成されるようにした
 import { TaskManager, isLowOrCompletedTask, not } from "./task.flow.js";
 
 const user1 = { id: 1, name: "Alice" };
@@ -13,28 +9,28 @@ taskManager.add({
     title: "テキストを読む",
     completed: false,
     user: user1,
-    priority: "high",
+    priority: "high"
 });
 
 taskManager.add({
     title: "質問表を書く",
     completed: false,
     user: user1,
-    priority: "middle",
+    priority: "middle"
 });
 
 taskManager.add({
     title: "質問表を確認する",
     completed: false,
     user: user2,
-    priority: "low",
+    priority: "low"
 });
 
 taskManager.add({
     title: "問題を作成する",
     completed: false,
     user: user2,
-    priority: "middle",
+    priority: "middle"
 });
 
 taskManager.completeTask(user1);

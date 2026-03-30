@@ -1,7 +1,5 @@
 // GitHub APIを呼び出す共通関数
 export async function gitHubAPIRequest(path, method = "GET", body, verbose = false, token) {
-    console.log('Token in gitHubAPIRequest:', process.env.GITHUB_TOKEN);
-
     console.log("GitHub API Request:", method, path);
     const url = `https://api.github.com${path}`;
     const options = {
@@ -12,6 +10,13 @@ export async function gitHubAPIRequest(path, method = "GET", body, verbose = fal
         },
         body: body ? JSON.stringify(body) : undefined
     };
+    
+    // tokenが存在し、有効な文字列の場合のみAuthorizationヘッダーを追加
+    if (token && typeof token === 'string' && token.trim()) {
+        // ヘッダー値から改行文字や制御文字を除去
+        const cleanToken = token.replace(/[\r\n\t]/g, '').trim();
+        options.headers["Authorization"] = `Bearer ${cleanToken}`;
+    }
 
     if (body) {
         options.headers["Content-Type"] = "application/json";
@@ -32,6 +37,8 @@ export async function gitHubAPIRequest(path, method = "GET", body, verbose = fal
         const text = await response.text();
         throw new Error(`GitHub API error! status: ${response.status}, message: ${text}`);
     }
+    const jsonResponse = await response.json();
+    console.log("GitHub API Response", jsonResponse);
 
-    return response.json();
+    return jsonResponse;
 }
