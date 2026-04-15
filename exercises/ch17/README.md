@@ -91,3 +91,15 @@ TypeScriptとFlowについて、どちらが主流となっているかを調べ
 また、その理由を考えてまとめなさい。
 
 **出題範囲 17.8**
+
+## 問題 17.11 💪💻
+
+React 利用の上級者を目指すチュートリアルとして、[Build Your Own React](https://pomb.us/build-your-own-react/)がある。あるライブラリ利用の上級者を目指して本質的な理解を深めるための学習方法として、ライブラリと同等の機能を実装するという方法があるが、このチュートリアルではそのような体験ができる。一般に広く使われるライブラリの実装は難易度が高い(低かったら保守性等から自分で実装したほうが早いという判断になる)ものであり、本チュートリアルが説明している概念も簡単なものではない。
+
+Build Your Own React では簡素化した React の実装を 300 行ほどのファイルとして書く。
+
+チュートリアルを完了すると完成する成果物 https://github.com/pomber/didact に対して、メモ化の機能を持つフックである [useMemo](https://ja.react.dev/reference/react/useMemo) を追加しなさい。
+
+なお、./ex11 で `npm install && npm start` すると https://github.com/pomber/didact の didact.js がトランスパイルされて http://localhost:5000/index.html で動作確認できるようになっている。
+
+**出題範囲**: **17.7**

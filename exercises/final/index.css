@@ -1,0 +1,20 @@
+@keyframes breatheBody {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@keyframes breatheFace {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+#body {
+  transform-origin: center;
+  animation: breatheBody 5s ease-in-out infinite;
+}
+
+#face {
+  animation: breatheFace 5s ease-in-out infinite;
+}
