@@ -1,9 +1,18 @@
-function StatusSection() {
+function StatusSection({status}) {
+    const { level, exp } = status;
+    console.log('[StatusSection] Rendering with:', { level, exp, fullStatus: status });
     return (
         <div style={styles.status}>
-            <span style={styles.level}>Lv.3</span>
-            <div style={styles.bar}>
-                <div style={styles.fill}></div>
+            <div style={styles.levelContainer}>
+                <div style={styles.levelLabel}>レベル</div>
+                <div style={styles.level}>{level}</div>
+            </div>
+            <div style={styles.expContainer}>
+                <div style={styles.expLabel}>EXP: {exp} / 100</div>
+                <div style={styles.bar}>
+                    <div style={{ ...styles.fill, width: `${exp}%` }}>
+                    </div>
+                </div>
             </div>
         </div>
     )
@@ -12,25 +21,53 @@ function StatusSection() {
 const styles = {
     status: {
         display: "flex",
+        flexDirection: "column",
+        gap: "16px",
+        padding: "24px",
+        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        color: "#fff",
+    },
+    levelContainer: {
+        display: "flex",
         alignItems: "center",
         gap: "12px",
-        padding: "20px",
+    },
+    levelLabel: {
+        fontSize: "14px",
+        fontWeight: "600",
+        opacity: 0.9,
     },
     level: {
-        fontSize: "18px",
+        fontSize: "48px",
         fontWeight: "bold",
+        textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+    },
+    expContainer: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "8px",
+    },
+    expLabel: {
+        fontSize: "12px",
+        fontWeight: "600",
+        opacity: 0.9,
     },
     bar: {
-        flex: 1,
-        height: "24px",
-        border: "3px solid #000",
-        backgroundColor: "#fff",
+        position: "relative",
+        height: "28px",
+        borderRadius: "14px",
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        overflow: "hidden",
+        boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
     },
     fill: {
-        width: "60%",              // ← ここが経験値
+        position: "relative",
         height: "100%",
-        backgroundColor: "#67aef0",
-    }
+        background: "linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)",
+        transition: "width 0.5s ease",
+        borderRadius: "14px",
+        overflow: "hidden",
+    },
 };
 
 export default StatusSection;
