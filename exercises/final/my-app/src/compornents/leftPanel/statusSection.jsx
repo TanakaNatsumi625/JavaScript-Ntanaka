@@ -4,7 +4,7 @@ function StatusSection({status}) {
     return (
         <div style={styles.status}>
             <div style={styles.levelContainer}>
-                <div style={styles.levelLabel}>レベル</div>
+                <div style={styles.levelLabel}>Lv.</div>
                 <div style={styles.level}>{level}</div>
             </div>
             <div style={styles.expContainer}>
@@ -22,10 +22,12 @@ const styles = {
     status: {
         display: "flex",
         flexDirection: "column",
-        gap: "16px",
-        padding: "24px",
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        color: "#fff",
+        gap: "14px",
+        padding: "20px",
+        background: "linear-gradient(135deg, #a8d5e2 0%, #76b6cd 100%)",
+        color: "#2d5366",
+        position: "relative",
+        flexShrink: 0,
     },
     levelContainer: {
         display: "flex",
@@ -33,40 +35,42 @@ const styles = {
         gap: "12px",
     },
     levelLabel: {
-        fontSize: "14px",
+        fontSize: "16px",
         fontWeight: "600",
-        opacity: 0.9,
+        opacity: 0.85,
     },
     level: {
-        fontSize: "48px",
+        fontSize: "46px",
         fontWeight: "bold",
-        textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+        textShadow: "3px 3px 0px rgba(255, 255, 255, 0.5)",
     },
     expContainer: {
         display: "flex",
         flexDirection: "column",
-        gap: "8px",
+        gap: "10px",
     },
     expLabel: {
-        fontSize: "12px",
+        fontSize: "13px",
         fontWeight: "600",
-        opacity: 0.9,
+        opacity: 0.85,
     },
     bar: {
         position: "relative",
         height: "28px",
-        borderRadius: "14px",
-        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        borderRadius: "18px",
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
         overflow: "hidden",
-        boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
+        border: "2px solid rgba(45, 83, 102, 0.2)",
+        boxShadow: "inset 0 2px 6px rgba(0, 0, 0, 0.08)",
     },
     fill: {
         position: "relative",
         height: "100%",
-        background: "linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)",
+        background: "linear-gradient(90deg, #ffd89b 0%, #ffb347 100%)",
         transition: "width 0.5s ease",
-        borderRadius: "14px",
+        borderRadius: "16px",
         overflow: "hidden",
+        boxShadow: "0 2px 8px rgba(255, 179, 71, 0.4)",
     },
 };
 

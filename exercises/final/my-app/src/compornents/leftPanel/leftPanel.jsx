@@ -1,28 +1,31 @@
-import StatusSection from "./statusSection";
-import TaskList from "./taskList";
-import TaskInput from "./taskInput";
+import StatusSection from "./StatusSection";
+import TaskList from "./TaskLists";
+import TaskInput from "./TaskInput";
 
 
-function LeftPanel({status, tasks, onAddTask}) {
+function LeftPanel({status, tasks, onAddTask, onVoiceRecognition}) {
   return (
     <div style={styles.leftPanel}>
       <StatusSection status={status}/>
       <TaskList tasks={tasks}/>
-      <TaskInput onAddTask={onAddTask}/>
+      <TaskInput onAddTask={onAddTask} onVoiceRecognition={onVoiceRecognition}/>
     </div>
   )
 }
 
 const styles = {
   leftPanel: {
-    width: "450px",
-    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    width: "550px",
+    height: "100%",
+    backgroundColor: "#fffef9",
     display: "flex",
-    borderRadius: "20px",
+    borderRadius: "25px",
     flexDirection: "column",
-    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
+    boxShadow: "0 8px 30px rgba(0, 0, 0, 0.1)",
+    border: "3px solid #d6a85d",
     backdropFilter: "blur(10px)",
     overflow: "hidden",
+    fontFamily: "'Comic Sans MS', 'Segoe UI Emoji', cursive, sans-serif",
   },
 };
 
