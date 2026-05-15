@@ -1,9 +1,9 @@
-import headerImg from "../img/先生ぺんぎん.png";
+import headerImg from "../img/ヘッダー用.png";
 const Header = () => {
   return (
-    <header style={styles.header}> 
-        <img src={headerImg} alt="Header Image" style={{ width: "60px", height: "60px", marginRight: "20px" }} />
-        <div style={styles.title}>しごと日和 with アレクサ</div>
+    <header style={styles.header}>
+      <img src={headerImg} alt="Header Image" style={{ width: "75px", height: "60px", marginRight: "20px" }} />
+      <div style={styles.title}>つみログ with アレクサ</div>
     </header>
   )
 }
@@ -18,14 +18,14 @@ const styles = {
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
-     boxShadow: "0 8px 30px rgba(0, 0, 0, 0.1)",
-     borderBottom: "3px solid #76b6cd",
-    },
-    title: {
-      fontSize: "22px",
-      fontWeight: "bold",
-      margin: 0,
-    }
+    boxShadow: "0 8px 30px rgba(0, 0, 0, 0.1)",
+    borderBottom: "3px solid #76b6cd",
+  },
+  title: {
+    fontSize: "22px",
+    fontWeight: "bold",
+    margin: 0,
+  }
 }
 
 export default Header;

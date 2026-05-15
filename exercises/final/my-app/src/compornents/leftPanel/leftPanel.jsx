@@ -1,14 +1,14 @@
 import StatusSection from "./StatusSection";
-import TaskList from "./TaskLists";
 import TaskInput from "./TaskInput";
+import TaskList from "./TaskLists";
 
 
-function LeftPanel({status, tasks, onAddTask, onVoiceRecognition}) {
+function LeftPanel({ status, tasks, onAddTask, onVoiceRecognition }) {
   return (
     <div style={styles.leftPanel}>
-      <StatusSection status={status}/>
-      <TaskList tasks={tasks}/>
-      <TaskInput onAddTask={onAddTask} onVoiceRecognition={onVoiceRecognition}/>
+      <StatusSection status={status} />
+      <TaskList tasks={tasks} />
+      <TaskInput onAddTask={onAddTask} onVoiceRecognition={onVoiceRecognition} />
     </div>
   )
 }

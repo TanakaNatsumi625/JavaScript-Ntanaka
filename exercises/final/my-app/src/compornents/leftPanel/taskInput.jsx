@@ -1,8 +1,7 @@
-import { useState } from "react";
 import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
-import Button from "@mui/material/Button";
+import { useState } from "react";
 
-function TaskInput({onAddTask, onVoiceRecognition}) {
+function TaskInput({ onAddTask, onVoiceRecognition }) {
   const [taskName, setTaskName] = useState("");
   const [taskTime, setTaskTime] = useState(0);
 
@@ -25,7 +24,7 @@ function TaskInput({onAddTask, onVoiceRecognition}) {
           value={taskName}
           onChange={(e) => setTaskName(e.target.value)}
           style={styles.inputName}
-          // onKeyPress={(e) => e.key === 'Enter' && handleAddTask()}
+        // onKeyPress={(e) => e.key === 'Enter' && handleAddTask()}
         />
       </div>
       <input
@@ -34,7 +33,7 @@ function TaskInput({onAddTask, onVoiceRecognition}) {
         value={taskTime === 0 ? '' : taskTime}
         onChange={(e) => setTaskTime(Number(e.target.value))}
         style={styles.inputNumber}
-        // onKeyPress={(e) => e.key === 'Enter' && handleAddTask()}
+      // onKeyPress={(e) => e.key === 'Enter' && handleAddTask()}
       />
       <button
         onClick={handleAddTask}

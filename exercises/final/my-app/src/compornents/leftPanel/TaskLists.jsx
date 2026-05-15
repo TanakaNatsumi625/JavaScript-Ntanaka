@@ -1,23 +1,22 @@
 function TaskList({ tasks }) {
-  console.log("TaskList rendered with tasks:", tasks);
   return (
     <div style={styles.taskList}>
-        <div style={styles.header}>達成タスク一覧</div>
-        <div style={styles.scrollContainer}>
-          {tasks.length === 0 ? (
-            <div style={styles.emptyState}>タスクを達成して経験値を上げよう！</div>
-          ) : (
-            tasks.map((task) => (
-              <div 
-                key={task.taskId} 
-                style={styles.item}
-              >
-                <span style={styles.taskName}>{task.taskName}</span>
-                <span style={styles.taskTime}>+{task.minutes}exp</span>
-              </div>
-            ))
-          )}
-        </div>
+      <div style={styles.header}>達成タスク一覧</div>
+      <div style={styles.scrollContainer}>
+        {tasks.length === 0 ? (
+          <div style={styles.emptyState}>タスクを達成して経験値を上げよう！</div>
+        ) : (
+          tasks.map((task) => (
+            <div
+              key={task.taskId}
+              style={styles.item}
+            >
+              <span style={styles.taskName}>{task.taskName}</span>
+              <span style={styles.taskTime}>+{task.minutes}exp</span>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   )
 }

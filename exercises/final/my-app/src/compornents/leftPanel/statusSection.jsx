@@ -1,16 +1,17 @@
-function StatusSection({status}) {
-    const { level, exp } = status;
-    console.log('[StatusSection] Rendering with:', { level, exp, fullStatus: status });
+
+function StatusSection({ status }) {
     return (
         <div style={styles.status}>
             <div style={styles.levelContainer}>
                 <div style={styles.levelLabel}>Lv.</div>
-                <div style={styles.level}>{level}</div>
+                <div style={styles.level}>{status.level}</div>
             </div>
             <div style={styles.expContainer}>
-                <div style={styles.expLabel}>EXP: {exp} / 100</div>
+                <div style={styles.expLabel}>
+                    {`EXP: ${status.exp} / 100`}
+                </div>
                 <div style={styles.bar}>
-                    <div style={{ ...styles.fill, width: `${exp}%` }}>
+                    <div style={{ ...styles.fill, width: `${status.exp}%` }}>
                     </div>
                 </div>
             </div>
